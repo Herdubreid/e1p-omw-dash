@@ -1,0 +1,25 @@
+<div class="main">
+    <div class="navbar navbar-expand border-bottom fixed-top bg-light">
+        <div data-bind="foreach: pages" class="col">
+            <button data-bind="
+            click: $parent.toggle,
+            class: `btn-${visible$() ? '' : 'outline-'}primary`,
+            attr: { 'title': title }" type="button" data-toggle="tooltip" data-placement="bottom"
+                class="btn btn-lg ml-2">
+                <i data-bind="class: icon"></i>
+            </button>
+        </div>
+        <a class="home col-auto btn p-0" target="_blank" href="http://e1p-templates.celin.io"
+            data-toogle="tooltip" data-placement="left" title="Visit Celin's Page Gallery">
+            <img src="../../images/icon.png">
+        </a>
+    </div>
+    <div class="container-fluid ml-2">
+        <div data-bind="foreach: pages" class="row">
+            <div data-bind="component: {
+            name: component,
+            params: { page: $data, services: $parent.services, }
+        }, class: `order-${order$()}`" class="col-auto p-0"></div>
+        </div>
+    </div>
+</div>
