@@ -79,6 +79,9 @@ class ViewModel {
         });
     }
     descendantsComplete = () => {
+        if (this.data.maps.length === 0){
+            return;
+        }
         const step = Math.max(Math.ceil(this.data.max / 5), 2);
         const legend = Array(Math.ceil(this.data.max / step))
             .fill(step)

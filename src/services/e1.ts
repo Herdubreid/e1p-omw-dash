@@ -254,6 +254,51 @@ export class E1Service {
                                 ],
                                 matchType: 'MATCH_ALL'
                             }
+                        },
+                        {
+                            dataServiceType: 'AGGREGATION',
+                            outputType: 'GRID_DATA',
+                            targetType: 'table',
+                            targetName: 'F96215',
+                            aggregation: {
+                                aggregations: [
+                                    {
+                                        aggregation: 'MAX',
+                                        column: 'BLDDTE'
+                                    }
+                                ],
+                                groupBy: [
+                                    {
+                                        column: 'PATHCD'
+                                    }
+                                ],
+                                orderBy: []
+                            },
+                            query: {
+                                matchType: 'MATCH_ALL',
+                                condition: [
+                                    {
+                                        value: [
+                                            {
+                                                content: '1',
+                                                specialValueId: 'LITERAL'
+                                            }
+                                        ],
+                                        controlId: 'F96215.PKGBULFUT4',
+                                        operator: 'EQUAL'
+                                    },
+                                    {
+                                        value: [
+                                            {
+                                                content: '50',
+                                                specialValueId: 'LITERAL'
+                                            }
+                                        ],
+                                        controlId: 'F96215.BLDSTS',
+                                        operator: 'EQUAL'
+                                    }
+                                ]
+                            }
                         }
                     ]
                 };
@@ -294,22 +339,34 @@ export class E1Service {
                     };
                     const users = {
                         maps: response.ds_4_F98210.output
-                        .reduce((a: IUserMap[], r) => {
-                            const user = r.groupBy.USER;
-                            const dateKey = (r.groupBy.UPMJ / 1000 + TIMEZONE_ADJUST).toString();
-                            const current = a.find(e => e.user === user);
-                            if (current) {
-                                current.map[dateKey] = r.COUNT;
-                            } else {
-                                const value = { user, map: {} };
-                                value.map[dateKey] = r.COUNT;
-                                a.push(value);
-                            }
-                            return a;
-                        }, []),
+                            .reduce((a: IUserMap[], r) => {
+                                const user = r.groupBy.USER;
+                                const dateKey = (r.groupBy.UPMJ / 1000 + TIMEZONE_ADJUST).toString();
+                                const current = a.find(e => e.user === user);
+                                if (current) {
+                                    current.map[dateKey] = r.COUNT;
+                                } else {
+                                    const value = { user, map: {} };
+                                    value.map[dateKey] = r.COUNT;
+                                    a.push(value);
+                                }
+                                return a;
+                            }, []),
                         min: Math.min(...response.ds_4_F98210.output.map(r => r.COUNT)),
                         max: Math.max(...response.ds_4_F98210.output.map(r => r.COUNT))
                     };
+                    const builds = response.ds_5_F96215.output
+                        .sort((a, b) => b.BLDDTE_MAX - a.BLDDTE_MAX)
+                        .map(r => {
+                            var year = Math.trunc(r.BLDDTE_MAX / 1000) + 1900;
+                            var days = r.BLDDTE_MAX % 1000 - 1;
+                            var build = new Date(`${year}-01-01`);
+                            build.setDate(build.getDate() + days);
+                            return {
+                                pathcode: r.groupBy.PATHCD,
+                                build
+                            }
+                        });
                     const rows38: any[] = logStats
                         .filter(r => r.code === '38');
                     const rows02: any[] = logStats
@@ -345,6 +402,7 @@ export class E1Service {
                             max: Math.max(...rows02.map(r => r.count)),
                             min: Math.min(...rows02.map(r => r.count))
                         },
+                        builds,
                         users
                     };
                     Actions.KeySave([StoreKeys.e1, this.e1Stats]);

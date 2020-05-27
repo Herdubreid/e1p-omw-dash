@@ -2,8 +2,8 @@ import * as ko from 'knockout';
 
 /** App State */
 
-export const TIMEZONE_ADJUST = 0; /*36000*/;
-export const DATE_FORMAT = 'MM/DD/YYYY';
+export const TIMEZONE_ADJUST = 36000;
+export const DATE_FORMAT = 'DD/MM/YYYY';
 
 export interface IPage {
     id: string;
@@ -38,12 +38,18 @@ export interface IUserMap {
     map: any;
 }
 
+export interface IBuild {
+    pathcode: string
+    build: Date
+}
+
 export interface IE1Stats {
     projectStatuses: any[];
     activityStatuses: any[];
     checkIns: ICalHeatMapData;
     transfers: ICalHeatMapData;
     projects: IProjectStatus;
+    builds: IBuild[];
     users: {
         maps: IUserMap[];
         min: number;

@@ -3,4 +3,5 @@ import './header';
 import './omw-log-stats';
 import './omw-proj-stats';
 import './omw-user-stats';
+import './latest-builds';
 import './about';

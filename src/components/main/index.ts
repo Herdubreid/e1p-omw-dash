@@ -84,6 +84,15 @@ class ViewModel {
                 visible$: ko.observable(false),
                 order$: ko.observable(4),
                 data: params.data.get(StoreKeys.e1).users
+            },
+            {
+                id: 'latest-builds',
+                component: 'e1p-latest-builds',
+                title: 'Latest Builds',
+                icon: 'fa fa-gift',
+                visible$: ko.observable(false),
+                order$: ko.observable(5),
+                data: params.data.get(StoreKeys.e1).builds
             }
         ];
     }
