@@ -90,7 +90,7 @@ export class E1Service {
                                             }
                                         ],
                                         controlId: 'F98210.OMWAC',
-                                        operator: 'LIST'
+                                        operator: 'BETWEEN'
                                     },
                                     {
                                         value: [
@@ -239,7 +239,7 @@ export class E1Service {
                                             }
                                         ],
                                         controlId: 'F98210.OMWAC',
-                                        operator: 'LIST'
+                                        operator: 'BETWEEN'
                                     },
                                     {
                                         value: [

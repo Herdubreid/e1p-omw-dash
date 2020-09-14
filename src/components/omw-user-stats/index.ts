@@ -55,7 +55,7 @@ class ViewModel {
                             }
                         ],
                         controlId: 'F98210.OMWAC',
-                        operator: 'LIST'
+                        operator: 'BETWEEN'
                     },
                     {
                         value: [
