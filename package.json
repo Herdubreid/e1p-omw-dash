@@ -1,6 +1,6 @@
 {
   "name": "e1p-omw-dash",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "E1Page OMW Dashboard",
   "main": "home.ts",
   "scripts": {
